@@ -75,6 +75,153 @@
 }
 .btn--secondary:hover { background: var(--code-bg); }
 
+/* === Toolbar === */
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* === Search bar === */
+
+.search-bar {
+  flex: 1 1 260px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--text);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.search-bar__input {
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+  padding: 9px 36px 9px 38px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search-bar__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.search-bar__input::placeholder {
+  color: var(--text);
+  opacity: 0.45;
+}
+
+.search-bar__input::-webkit-search-cancel-button { display: none; }
+
+.search-bar__clear {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text);
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.search-bar__clear:hover { color: var(--text-h); }
+
+/* === Filter panel === */
+
+.filter-panel {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.filter-select {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.filter-select:focus { border-color: var(--accent); }
+
+.filter-year {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-input {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  outline: none;
+  width: 80px;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.filter-input:focus { border-color: var(--accent); }
+.filter-input::placeholder { color: var(--text); opacity: 0.45; }
+
+.filter-year__sep {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.filter-reset {
+  align-self: flex-end;
+  font-size: 13px;
+  padding: 9px 14px;
+}
+
+/* === Results count === */
+
+.results-count {
+  font-size: 13px;
+  color: var(--text);
+  margin: 0 0 16px;
+}
+
 /* === Car list === */
 
 .car-list {

@@ -1,14 +1,45 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { CarList } from './components/CarList'
 import { CarForm } from './components/CarForm'
+import { SearchBar } from './components/SearchBar'
+import { FilterPanel } from './components/FilterPanel'
 import { useCars } from './hooks/useCars'
 import type { Car } from './types/car'
+import { defaultFilter, hasActiveFilters } from './types/filter'
+import type { FilterState } from './types/filter'
 import './App.css'
 
 export default function App() {
   const { cars, addCar, updateCar, deleteCar } = useCars()
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Car | null>(null)
+  const [filter, setFilter] = useState<FilterState>(defaultFilter())
+
+  const filteredCars = useMemo(() => {
+    const today = new Date()
+    return cars.filter(car => {
+      if (filter.search) {
+        const q = filter.search.toLowerCase()
+        const match =
+          car.model.toLowerCase().includes(q) ||
+          car.ownerName.toLowerCase().includes(q) ||
+          car.ownerPhone.includes(q)
+        if (!match) return false
+      }
+
+      if (filter.warranty !== 'all') {
+        const expired = car.warrantyExpiry ? new Date(car.warrantyExpiry) < today : false
+        if (filter.warranty === 'none' && car.hasWarranty) return false
+        if (filter.warranty === 'active' && (!car.hasWarranty || expired)) return false
+        if (filter.warranty === 'expired' && (!car.hasWarranty || !expired)) return false
+      }
+
+      if (filter.yearFrom && car.year < Number(filter.yearFrom)) return false
+      if (filter.yearTo && car.year > Number(filter.yearTo)) return false
+
+      return true
+    })
+  }, [cars, filter])
 
   function openAdd() {
     setEditing(null)
@@ -47,7 +78,23 @@ export default function App() {
         <button className="btn btn--primary" onClick={openAdd}>+ Добавить</button>
       </header>
 
-      <CarList cars={cars} onEdit={openEdit} onDelete={handleDelete} />
+      <div className="toolbar">
+        <SearchBar value={filter.search} onChange={search => setFilter(f => ({ ...f, search }))} />
+        <FilterPanel filter={filter} onChange={setFilter} />
+      </div>
+
+      {hasActiveFilters(filter) && cars.length > 0 && (
+        <p className="results-count">
+          Найдено: {filteredCars.length} из {cars.length}
+        </p>
+      )}
+
+      <CarList
+        cars={filteredCars}
+        totalCount={cars.length}
+        onEdit={openEdit}
+        onDelete={handleDelete}
+      />
 
       {modalOpen && (
         <div
