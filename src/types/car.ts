@@ -2,6 +2,7 @@ export interface Car {
   id: string
   model: string
   year: number
+  vin: string
   ownerName: string
   ownerPhone: string
   mileage: number

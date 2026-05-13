@@ -17,5 +17,9 @@ export function useCars() {
     setCars(prev => prev.filter(c => c.id !== id))
   }
 
-  return { cars, addCar, updateCar, deleteCar }
+  const importCars = (data: Car[]) => {
+    setCars(data)
+  }
+
+  return { cars, addCar, updateCar, deleteCar, importCars }
 }

@@ -36,6 +36,12 @@ export function CarCard({ car, onEdit, onDelete }: Props) {
           <span className="car-card__label">Пробег</span>
           <span>{car.mileage.toLocaleString('ru-RU')} км</span>
         </div>
+        {car.vin && (
+          <div className="car-card__row">
+            <span className="car-card__label">VIN</span>
+            <span className="car-card__vin">{car.vin}</span>
+          </div>
+        )}
         <div className="car-card__row">
           <span className="car-card__label">Замена масла</span>
           <span>{fmtDate(car.lastOilChange)}</span>

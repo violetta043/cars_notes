@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
+  const initialRef = useRef(initialValue)
+
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key)
-      return item ? (JSON.parse(item) as T) : initialValue
+      return item ? (JSON.parse(item) as T) : initialRef.current
     } catch {
-      return initialValue
+      return initialRef.current
     }
   })
 
@@ -19,6 +21,18 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       console.error('useLocalStorage: не удалось сохранить значение для ключа', key)
     }
   }
+
+  useEffect(() => {
+    function handleStorage(e: StorageEvent) {
+      if (e.key !== key) return
+      setStoredValue(
+        e.newValue !== null ? (JSON.parse(e.newValue) as T) : initialRef.current
+      )
+    }
+
+    window.addEventListener('storage', handleStorage)
+    return () => window.removeEventListener('storage', handleStorage)
+  }, [key])
 
   return [storedValue, setValue] as const
 }

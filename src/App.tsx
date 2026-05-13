@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { CarList } from './components/CarList'
 import { CarForm } from './components/CarForm'
 import { SearchBar } from './components/SearchBar'
@@ -10,7 +10,8 @@ import type { FilterState } from './types/filter'
 import './App.css'
 
 export default function App() {
-  const { cars, addCar, updateCar, deleteCar } = useCars()
+  const { cars, addCar, updateCar, deleteCar, importCars } = useCars()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Car | null>(null)
   const [filter, setFilter] = useState<FilterState>(defaultFilter())
@@ -71,11 +72,56 @@ export default function App() {
     }
   }
 
+  function handleExport() {
+    const blob = new Blob([JSON.stringify(cars, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `cars-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result as string)
+        if (!Array.isArray(data) || !data.every(item => typeof item.id === 'string')) {
+          throw new Error()
+        }
+        if (cars.length > 0 && !window.confirm(`Заменить ${cars.length} текущих записей данными из файла?`)) return
+        importCars(data as Car[])
+      } catch {
+        alert('Не удалось прочитать файл. Убедитесь, что это корректный экспорт из этого приложения.')
+      }
+    }
+    reader.readAsText(file)
+  }
+
   return (
     <div className="app">
       <header className="app-header">
         <h1 className="app-title">Автомобили клиентов</h1>
-        <button className="btn btn--primary" onClick={openAdd}>+ Добавить</button>
+        <div className="header-actions">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            style={{ display: 'none' }}
+            onChange={handleImport}
+          />
+          <button className="btn btn--ghost" onClick={() => fileInputRef.current?.click()}>
+            Импорт
+          </button>
+          <button className="btn btn--ghost" onClick={handleExport} disabled={cars.length === 0}>
+            Экспорт
+          </button>
+          <button className="btn btn--primary" onClick={openAdd}>+ Добавить</button>
+        </div>
       </header>
 
       <div className="toolbar">

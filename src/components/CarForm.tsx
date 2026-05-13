@@ -15,6 +15,7 @@ function emptyForm(): CarFormData {
   return {
     model: '',
     year: currentYear,
+    vin: '',
     ownerName: '',
     ownerPhone: '',
     mileage: 0,
@@ -80,6 +81,18 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
             onChange={e => set('mileage', Number(e.target.value))}
           />
         </div>
+      </div>
+
+      <div className="form-group">
+        <label className="form-label">VIN-код</label>
+        <input
+          className="form-input form-input--mono"
+          type="text"
+          placeholder="17 символов"
+          maxLength={17}
+          value={form.vin}
+          onChange={e => set('vin', e.target.value.toUpperCase())}
+        />
       </div>
 
       <div className="form-group">

@@ -18,6 +18,12 @@
   margin-bottom: 32px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .app-title {
   font-size: 26px;
   font-weight: 600;
@@ -310,6 +316,19 @@
   text-decoration: none;
 }
 .car-card__phone:hover { text-decoration: underline; }
+
+.car-card__vin {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--text-h);
+}
+
+.form-input--mono {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
 .car-card__footer {
   display: flex;
