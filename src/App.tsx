@@ -3,6 +3,7 @@ import { CarList } from './components/CarList'
 import { CarForm } from './components/CarForm'
 import { SearchBar } from './components/SearchBar'
 import { FilterPanel } from './components/FilterPanel'
+import { StatsBar } from './components/StatsBar'
 import { useCars } from './hooks/useCars'
 import type { Car } from './types/car'
 import { defaultFilter, hasActiveFilters } from './types/filter'
@@ -105,7 +106,17 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">Автомобили клиентов</h1>
+        <div className="brand">
+          <div className="brand__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+              <path d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.3.07-.6.07-.58 0-.28-.03-.58-.07-.88l1.9-1.47c.17-.13.21-.38.1-.57l-1.8-3.12c-.11-.2-.35-.27-.56-.2l-2.24.9c-.47-.36-.97-.66-1.52-.88l-.34-2.38c-.04-.23-.23-.4-.47-.4h-3.6c-.24 0-.43.17-.47.4l-.34 2.38c-.55.22-1.05.52-1.52.88l-2.24-.9c-.21-.07-.45 0-.56.2L3.46 9.58c-.11.19-.07.44.1.57l1.9 1.47c-.04.3-.07.61-.07.88s.03.58.07.88l-1.9 1.47c-.17.13-.21.38-.1.57l1.8 3.12c.11.2.35.27.56.2l2.24-.9c.47.36.97.66 1.52.88l.34 2.38c.04.23.23.4.47.4h3.6c.24 0 .43-.17.47-.4l.34-2.38c.55-.22 1.05-.52 1.52-.88l2.24.9c.21.07.45 0 .56-.2l1.8-3.12c.11-.2.07-.44-.1-.57l-1.9-1.47z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 className="app-title">AutoService</h1>
+            <p className="app-subtitle">Учёт автомобилей</p>
+          </div>
+        </div>
         <div className="header-actions">
           <input
             ref={fileInputRef}
@@ -123,6 +134,8 @@ export default function App() {
           <button className="btn btn--primary" onClick={openAdd}>+ Добавить</button>
         </div>
       </header>
+
+      <StatsBar cars={cars} />
 
       <div className="toolbar">
         <SearchBar value={filter.search} onChange={search => setFilter(f => ({ ...f, search }))} />
