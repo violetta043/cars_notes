@@ -46,8 +46,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
     <form className="car-form" onSubmit={handleSubmit} noValidate={false}>
 
       <div className="form-group">
-        <label className="form-label">Марка и модель</label>
+        <label className="form-label" htmlFor="model">Марка и модель</label>
         <input
+          id="model"
           className="form-input"
           type="text"
           required
@@ -59,8 +60,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
 
       <div className="form-row">
         <div className="form-group">
-          <label className="form-label">Год выпуска</label>
+          <label className="form-label" htmlFor="year">Год выпуска</label>
           <input
+            id="year"
             className="form-input"
             type="number"
             required
@@ -71,8 +73,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
           />
         </div>
         <div className="form-group">
-          <label className="form-label">Пробег (км)</label>
+          <label className="form-label" htmlFor="mileage">Пробег (км)</label>
           <input
+            id="mileage"
             className="form-input"
             type="number"
             required
@@ -84,11 +87,13 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
       </div>
 
       <div className="form-group">
-        <label className="form-label">VIN-код</label>
+        <label className="form-label" htmlFor="vin">VIN-код</label>
         <input
+          id="vin"
           className="form-input form-input--mono"
           type="text"
           placeholder="17 символов"
+          minLength={17}
           maxLength={17}
           value={form.vin}
           onChange={e => set('vin', e.target.value.toUpperCase())}
@@ -96,8 +101,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
       </div>
 
       <div className="form-group">
-        <label className="form-label">Владелец</label>
+        <label className="form-label" htmlFor="ownerName">Владелец</label>
         <input
+          id="ownerName"
           className="form-input"
           type="text"
           required
@@ -108,8 +114,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
       </div>
 
       <div className="form-group">
-        <label className="form-label">Телефон клиента</label>
+        <label className="form-label" htmlFor="ownerPhone">Телефон клиента</label>
         <input
+          id="ownerPhone"
           className="form-input"
           type="tel"
           required
@@ -120,8 +127,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
       </div>
 
       <div className="form-group">
-        <label className="form-label">Дата последней замены масла</label>
+        <label className="form-label" htmlFor="lastOilChange">Дата последней замены масла</label>
         <input
+          id="lastOilChange"
           className="form-input"
           type="date"
           value={form.lastOilChange ?? ''}
@@ -140,8 +148,9 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
 
       {form.hasWarranty && (
         <div className="form-group">
-          <label className="form-label">Дата окончания гарантии</label>
+          <label className="form-label" htmlFor="warrantyExpiry">Дата окончания гарантии</label>
           <input
+            id="warrantyExpiry"
             className="form-input"
             type="date"
             required
