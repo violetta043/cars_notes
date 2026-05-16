@@ -385,7 +385,9 @@
   width: 100%;
   max-width: 480px;
   max-height: 90svh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
 }
 
@@ -395,10 +397,7 @@
   align-items: center;
   padding: 20px 24px;
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: var(--bg);
-  z-index: 1;
+  flex-shrink: 0;
 }
 
 .modal__header h2 {
@@ -430,6 +429,26 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-border) transparent;
+}
+
+.car-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.car-form::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.car-form::-webkit-scrollbar-thumb {
+  background: var(--accent-border);
+  border-radius: 999px;
+}
+
+.car-form::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 .form-row {
