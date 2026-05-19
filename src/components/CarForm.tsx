@@ -11,9 +11,48 @@ interface Props {
 
 const currentYear = new Date().getFullYear()
 
+function formatPhone(value: string): string {
+  const trimmed = value.trimStart()
+
+  if (trimmed.startsWith('+')) {
+    const digits = trimmed.slice(1).replace(/\D/g, '').slice(0, 13)
+    if (!digits) return '+'
+    const ccLen = digits.length > 10 ? Math.min(3, digits.length - 10) : 1
+    const cc = digits.slice(0, ccLen)
+    const local = digits.slice(ccLen)
+    const parts: string[] = ['+' + cc]
+    if (local.length > 0) parts.push(local.slice(0, 3))
+    if (local.length > 3) parts.push(local.slice(3, 6))
+    if (local.length > 6) parts.push(local.slice(6, 8))
+    if (local.length > 8) parts.push(local.slice(8, 10))
+    return parts.join(' ')
+  }
+
+  const digits = trimmed.replace(/\D/g, '').slice(0, 10)
+  const parts: string[] = []
+  if (digits.length > 0) parts.push(digits.slice(0, 3))
+  if (digits.length > 3) parts.push(digits.slice(3, 6))
+  if (digits.length > 6) parts.push(digits.slice(6, 8))
+  if (digits.length > 8) parts.push(digits.slice(8, 10))
+  return parts.join(' ')
+}
+
+function formatPlate(value: string): string {
+  const v = value.replace(/\s/g, '').toUpperCase()
+  if (v.length <= 2) return v
+  if (/\d/.test(v[2])) {
+    const p1 = v.slice(0, 2)
+    const p2 = v.slice(2, 6)
+    const p3 = v.slice(6)
+    return [p1, p2, p3].filter(Boolean).join(' ')
+  }
+  return v
+}
+
 function emptyForm(): CarFormData {
   return {
     model: '',
+    plateNumber: '',
     year: currentYear,
     vin: '',
     ownerName: '',
@@ -55,6 +94,19 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
           placeholder="Toyota Camry"
           value={form.model}
           onChange={e => set('model', e.target.value)}
+        />
+      </div>
+
+      <div className="form-group">
+        <label className="form-label" htmlFor="plateNumber">Гос. номер</label>
+        <input
+          id="plateNumber"
+          className="form-input form-input--mono"
+          type="text"
+          required
+          placeholder="АА 1234 АА"
+          value={form.plateNumber}
+          onChange={e => set('plateNumber', formatPlate(e.target.value))}
         />
       </div>
 
@@ -122,7 +174,7 @@ export function CarForm({ initialData, onSubmit, onCancel }: Props) {
           required
           placeholder="+38 099 123 45 67"
           value={form.ownerPhone}
-          onChange={e => set('ownerPhone', e.target.value)}
+          onChange={e => set('ownerPhone', formatPhone(e.target.value))}
         />
       </div>
 

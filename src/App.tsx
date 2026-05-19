@@ -24,6 +24,7 @@ export default function App() {
         const q = filter.search.toLowerCase()
         const match =
           car.model.toLowerCase().includes(q) ||
+          car.plateNumber?.toLowerCase().includes(q) ||
           car.ownerName.toLowerCase().includes(q) ||
           car.ownerPhone.includes(q)
         if (!match) return false

@@ -18,7 +18,10 @@ export function CarCard({ car, onEdit, onDelete }: Props) {
       <div className="car-card__header">
         <div>
           <h2 className="car-card__title">{car.model}</h2>
-          <span className="car-card__year">{car.year} г.</span>
+          <div className="car-card__meta">
+            {car.plateNumber && <span className="car-card__plate">{car.plateNumber}</span>}
+            <span className="car-card__year">{car.year} г.</span>
+          </div>
         </div>
         <WarrantyBadge hasWarranty={car.hasWarranty} warrantyExpiry={car.warrantyExpiry} />
       </div>

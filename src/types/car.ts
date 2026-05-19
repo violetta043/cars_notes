@@ -2,6 +2,7 @@ export interface Car {
   id: string
   createdAt?: string
   model: string
+  plateNumber: string
   year: number
   vin: string
   ownerName: string
