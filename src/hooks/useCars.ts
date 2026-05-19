@@ -5,7 +5,7 @@ export function useCars() {
   const [cars, setCars] = useLocalStorage<Car[]>('cars', [])
 
   const addCar = (data: Omit<Car, 'id'>) => {
-    const car: Car = { ...data, id: crypto.randomUUID() }
+    const car: Car = { ...data, id: crypto.randomUUID(), createdAt: new Date().toISOString() }
     setCars(prev => [...prev, car])
   }
 
